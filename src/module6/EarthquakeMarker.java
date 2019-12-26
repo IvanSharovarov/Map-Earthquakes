@@ -10,7 +10,7 @@ import processing.core.PGraphics;
  *
  */
 // TODO: Implement the comparable interface
-public abstract class EarthquakeMarker extends CommonMarker
+public abstract class EarthquakeMarker extends CommonMarker implements Comparable<EarthquakeMarker>
 {
 	
 	// Did the earthquake occur on land?  This will be set by the subclasses.
@@ -22,6 +22,7 @@ public abstract class EarthquakeMarker extends CommonMarker
 	// based on magnitude. 
 	protected float radius;
 	
+	protected boolean showThreadCircle;
 	
 	// constants for distance
 	protected static final float kmPerMile = 1.6f;
@@ -56,7 +57,10 @@ public abstract class EarthquakeMarker extends CommonMarker
 	}
 	
 	// TODO: Add the method:
-	// public int compareTo(EarthquakeMarker marker)
+	 public int compareTo(EarthquakeMarker marker)
+	 {
+		 return Float.compare(marker.getMagnitude(), this.getMagnitude());
+	 }
 	
 	
 	// calls abstract method drawEarthquake and then checks age and draws X if needed
@@ -109,9 +113,12 @@ public abstract class EarthquakeMarker extends CommonMarker
 		pg.fill(0);
 		pg.text(title, x + 3 , y +18);
 		
-		
 		pg.popStyle();
 		
+		if(showThreadCircle) {
+			pg.fill(255, 195, 0, 10);
+			pg.ellipse(x, y, (float) (this.threatCircle() / 2), (float) (this.threatCircle() / 2));	
+		}
 	}
 
 	
@@ -174,12 +181,18 @@ public abstract class EarthquakeMarker extends CommonMarker
 		return Float.parseFloat(getProperty("radius").toString());
 	}
 	
+	public boolean getShowThreadCircle() {
+		return this.showThreadCircle;
+	}
+	
 	public boolean isOnLand()
 	{
 		return isOnLand;
 	}
 	
-
+	public void setShowThreadCircle(boolean value) {
+		this.showThreadCircle = value;
+	}
 	
 	
 }

@@ -2,6 +2,7 @@ package module6;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -14,6 +15,7 @@ import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
@@ -73,7 +75,7 @@ public class EarthquakeCityMap extends PApplet {
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 200, 50, 650, 600, new OpenStreetMap.OpenStreetMapProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
 		}
@@ -81,8 +83,8 @@ public class EarthquakeCityMap extends PApplet {
 		
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
-		//earthquakesURL = "test1.atom";
-		//earthquakesURL = "test2.atom";
+//		earthquakesURL = "test1.atom";
+//		earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
 		//earthquakesURL = "quiz2.atom";
@@ -116,7 +118,9 @@ public class EarthquakeCityMap extends PApplet {
 	    }
 
 	    // could be used for debugging
-	    printQuakes();
+//	    printQuakes();
+
+		sortAndPrint(20);
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -132,12 +136,27 @@ public class EarthquakeCityMap extends PApplet {
 		background(0);
 		map.draw();
 		addKey();
-		
 	}
 	
 	
 	// TODO: Add the method:
-	//   private void sortAndPrint(int numToPrint)
+	   private void sortAndPrint(int numToPrint)
+	   {
+		   ArrayList<EarthquakeMarker> arrayMarkers = new ArrayList<EarthquakeMarker>();
+		   
+		   for(Marker m: quakeMarkers)
+			   arrayMarkers.add((EarthquakeMarker) m);
+		   
+		   Collections.sort(arrayMarkers);
+		   
+		   if(numToPrint > arrayMarkers.size()) {
+			   for(Marker quake: quakeMarkers)
+				   System.out.println(quake);
+		   } else {
+			 for(int i=0; i<numToPrint; i++)
+				 System.out.println(arrayMarkers.get(i));
+		   }
+	   }
 	// and then call that method from setUp
 	
 	/** Event handler that gets called automatically when the 
@@ -195,6 +214,11 @@ public class EarthquakeCityMap extends PApplet {
 				checkCitiesForClick();
 			}
 		}
+		// if button is pressed 
+		if(mouseX > 60 && mouseX < 150
+				&& mouseY > 260 && mouseY < 290) {
+			setShowThreadCircle();
+		}
 	}
 	
 	// Helper method that will check if a city marker was clicked on
@@ -221,7 +245,8 @@ public class EarthquakeCityMap extends PApplet {
 				}
 				return;
 			}
-		}		
+		}
+		
 	}
 	
 	// Helper method that will check if an earthquake marker was clicked on
@@ -250,6 +275,21 @@ public class EarthquakeCityMap extends PApplet {
 			}
 		}
 	}
+	
+	
+	private void setShowThreadCircle()
+	{
+
+	   ArrayList<EarthquakeMarker> arrayMarkers = new ArrayList<EarthquakeMarker>();
+	   
+	   for(Marker m: quakeMarkers)
+		   arrayMarkers.add((EarthquakeMarker) m);
+	   
+		for (EarthquakeMarker marker : arrayMarkers) {
+			marker.setShowThreadCircle(!marker.getShowThreadCircle());
+		}
+	}
+		
 	
 	// loop over and unhide all markers
 	private void unhideMarkers() {
@@ -306,6 +346,10 @@ public class EarthquakeCityMap extends PApplet {
 		fill(color(255, 0, 0));
 		ellipse(xbase+35, ybase+180, 12, 12);
 		
+		// button (60)x(150)x(260)x(290)
+		fill(255, 195, 0);
+		rect(xbase+35, ybase+210, 90, 30);
+		
 		textAlign(LEFT, CENTER);
 		fill(0, 0, 0);
 		text("Shallow", xbase+50, ybase+140);
@@ -313,6 +357,10 @@ public class EarthquakeCityMap extends PApplet {
 		text("Deep", xbase+50, ybase+180);
 
 		text("Past hour", xbase+50, ybase+200);
+		
+		// button text
+		text("Show thread", xbase+40, ybase+220);
+		text("circle", xbase+70, ybase+230);
 		
 		fill(255, 255, 255);
 		int centerx = xbase+35;
