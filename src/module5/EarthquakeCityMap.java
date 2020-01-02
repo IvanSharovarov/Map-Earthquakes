@@ -164,9 +164,7 @@ public class EarthquakeCityMap extends PApplet {
 		// from getting too long/disorganized
 		if(lastClicked != null) {
 			unhideMarkers();
-		} else {
-			if()
-		}
+		} 
 	}
 	
 	
