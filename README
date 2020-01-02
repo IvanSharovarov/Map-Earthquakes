@@ -1,41 +1,6 @@
-unfolding_app_template and UC San Diego/Coursera MOOC starter code
-==================================================================
+In this course I learned some interesting things about OOP on java and built an application that takes 
+earthquake data and shows it on a map with markers. Markers differ in size, shape and color depending on 
+the location and power of an earthquake. When you put the mouse cursor over an earthquake, information about it is shown. 
+As a result, the application has been extended to show the radius of an earthquake when you put the mouse cursor over it.
 
-This is a skeleton to use Unfolding in Eclipse as well as some starter
-code for the Object Oriented Programming in Java course offered by 
-UC San Diego through Coursera.
-
-A very basic Unfolding demo you'll find in the source folder in the default package. 
-For more examples visit http://unfoldingmaps.org, or download the template with
-examples.
-
-The module folders contain the starter code for the programming assignments
-associated with the MOOC.
-
-Get excited and make things!
-
-
-INSTALLATION
-
-Import this folder in Eclipse ('File' -> 'Import' -> 'Existing Projects into
-Workspace', Select this folder, 'Finish')
-
-
-MANUAL INSTALLATION
-
-If the import does not work follow the steps below.
-
-- Create new Java project
-- Copy+Paste all files into project
-- Add all lib/*.jars to build path
-- Set native library location for jogl.jar. Choose appropriate folder for your OS.
-- Add data/ as src
-
-
-TROUBLE SHOOTING
-
-Switch Java Compiler to 1.6 if you get VM problems. (Processing should work with Java 1.6, and 1.7)
-
-
-
-
+Used libraries: PGraphics, PApplet, Unfoldingmaps.
